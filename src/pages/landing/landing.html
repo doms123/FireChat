@@ -1,0 +1,24 @@
+<ion-content padding>
+  <div class="tCenter mt50">
+      <img src="../../assets/images/logo.svg" class="appLogo" alt="">
+  </div>
+  <ion-grid>
+      <ion-row class="tCenter fsize24">
+        <ion-col col-12 class="mb200">Welcome To FireChat</ion-col>
+        <button ion-button icon-left medium full margin-top class="fbBtn mt200" (click)="fbLoginBtn()">
+          <ion-icon name="logo-facebook"></ion-icon>
+          LOGIN WITH FACEBOOK
+        </button>
+
+        <button ion-button icon-left medium full margin-top class="googleBtn" (click)="googleLoginBtn()">
+          <ion-icon name="logo-googleplus"></ion-icon>
+          LOGIN WITH GOOGLE
+        </button>
+        
+        <button ion-button icon-left medium full margin-top class="emailBtn" (click)="pushLoginPage()">
+          <ion-icon name="mail"></ion-icon>
+          LOGIN WITH EMAIL
+        </button>
+      </ion-row>
+    </ion-grid>
+</ion-content>

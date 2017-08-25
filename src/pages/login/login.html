@@ -1,0 +1,44 @@
+<ion-header>
+	<ion-navbar>
+			<ion-title>FireChat Login</ion-title>
+	</ion-navbar>
+</ion-header>
+	
+<ion-content padding>
+	  <form (submit)="login()" [formGroup]="loginForm">
+	  	<ion-item>
+	  	  <ion-label floating>Email</ion-label>
+				<ion-input 
+				type="text" 
+				[(ngModel)]="email"
+				name="email"
+				[formControl]="loginForm.controls['email']"
+				></ion-input>
+			</ion-item>
+			<div 
+				*ngIf="loginForm.controls['email'].hasError('pattern') && 
+				loginForm.controls['email'].touched"
+				class="errorColor fSize12 mt5" 
+				padding-left>Email Address is invalid
+			</div>
+	  	<ion-item>
+	  	  <ion-label floating>Password</ion-label>
+				<ion-input 
+				type="password"
+				[(ngModel)]="pass"
+				name="pass"
+				[formControl]="loginForm.controls['pass']"
+				></ion-input>
+			</ion-item>
+			<div 
+				*ngIf="loginForm.controls['pass'].hasError('required') && 
+				loginForm.controls['pass'].touched" 
+				class="errorColor fSize12 mt5" 
+				padding-left>Password is required
+			</div>
+	  	<div text-right margin-top>
+	  	  <a href="#" (click)="pushSignUp()" padding-top>Sign up?</a>
+	  	</div>
+	  	<button ion-button color="default" medium float-right full margin-top>LOGIN</button>
+	  </form>
+</ion-content>
