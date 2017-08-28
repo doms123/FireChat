@@ -5,14 +5,16 @@ import { MyApp } from './app.component';
 
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
-import { LoginPage } from '../pages/login/login';
-import { RegisterPage } from '../pages/register/register';
-import { LandingPage } from '../pages/landing/landing';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
+// Ionic Modules for Imports
+import { HomePageModule } from '../pages/home/home.module';
+import { LoginPageModule } from '../pages/login/login.module';
+import { RegisterPageModule } from '../pages/register/register.module';
+import { LandingPageModule } from '../pages/landing/landing.module';
+import { ResetPasswordPageModule } from '../pages/reset-password/reset-password.module';
 
 // Firebase Imports
 import { AngularFireModule } from 'angularfire2';
@@ -22,6 +24,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 // Auth Service
 import { AuthProvider } from '../providers/auth/auth';
 import { HttpModule } from '@angular/http';
+import { IonicStorageModule } from '@ionic/storage';
 
 // Firebase Config
 const firebaseConfig = {
@@ -37,11 +40,6 @@ const firebaseConfig = {
     MyApp,
     AboutPage,
     ContactPage,
-    HomePage,
-    TabsPage,
-    LoginPage,
-    RegisterPage,
-    LandingPage
   ],
   imports: [
     BrowserModule,
@@ -49,18 +47,19 @@ const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    HttpModule
+    HttpModule, 
+    HomePageModule,
+    LoginPageModule,
+    RegisterPageModule,
+    LandingPageModule,
+    IonicStorageModule.forRoot(),
+    ResetPasswordPageModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     AboutPage,
     ContactPage,
-    HomePage,
-    TabsPage,
-    LoginPage,
-    RegisterPage,
-    LandingPage
   ],
   providers: [
     StatusBar,

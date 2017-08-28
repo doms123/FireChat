@@ -1,8 +1,10 @@
+import { HomePage } from './../../pages/home/home';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+import { Storage } from '@ionic/storage';
 
 /*
   Generated class for the AuthProvider provider.
@@ -12,16 +14,18 @@ import * as firebase from 'firebase/app';
 */
 @Injectable()
 export class AuthProvider {
-
   constructor(
     public http: Http,
-    public afAuth: AngularFireAuth
-  ) {
-    console.log('Hello AuthProvider Provider');
-  }
+    public afAuth: AngularFireAuth,
+    public storage: Storage,
+  ) { }
 
   register(email:string, pass:string) {
-   return this.afAuth.auth.createUserWithEmailAndPassword(email, pass);
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, pass);
+  }
+
+  resetPassword(email:string) {
+    return this.afAuth.auth.sendPasswordResetEmail(email);
   }
 
   login(email:string, pass:string) {
@@ -29,29 +33,10 @@ export class AuthProvider {
   }
 
   fbLogin() {
-    this.afAuth.auth
-    .signInWithPopup(new firebase.auth.FacebookAuthProvider())
-    .then(res => alert(res));
+    return this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
   }
 
   googleLogin() {
-    let provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      var token = result.credential.accessToken;
-      // The signed-in user info.
-      var user = result.user;
-      alert(user)
-      // ...
-    }).catch(function(error) {
-      // Handle Errors here.
-      //var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      //var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-     // var credential = error.credential;
-      // ...
-    });
+    return firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 }

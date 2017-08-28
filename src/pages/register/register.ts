@@ -1,3 +1,4 @@
+import { LoginPage } from './../login/login';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -20,7 +21,7 @@ export class RegisterPage {
   email:string;
   pass:string;
   registerForm: FormGroup;
-  isRegisterDisable:boolean = true;
+  isRegisterDisable:boolean = false;
 
   constructor(
     public navCtrl: NavController, 
@@ -42,38 +43,41 @@ export class RegisterPage {
   register() {
     this.isRegisterDisable = true;
     this.authProvider.register(this.email, this.pass)
-    .then((data) => {
+    .then((user) => {
+      user.sendEmailVerification();
+      this.navCtrl.push(LoginPage);
       this.email = '';
       this.pass = '';
-      console.log(data)
-      this.navCtrl.push(HomePage);
-    })
-    .catch((err) => {console.log(err)
+      let toast = this.toastCtrl.create({
+        message: 'Email verification sent',
+        duration: 5000
+      });
+      toast.present();
+      this.isRegisterDisable = false;
+    }).catch((err) => {
       let toast = this.toastCtrl.create({
         message: err.message,
         duration: 3000
       });
-
+      this.isRegisterDisable = false;
       toast.present();
-    });
-    //console.log(res);
-  //   this.authProvider.register(this.email, this.pass)
-  //   .then((res) => {
-  //     let toast = this.toastCtrl.create({
-  //       message: 'User was added successfully',
-  //       duration: 3000
-  //     });
-  //     toast.present();
-  //     this.isRegisterDisable = false;
-  //   })
-  //   .catch((err) => {
-  //     alert('error')
-  //     // let toast = this.toastCtrl.create({
-  //     //   message: err.message,
-  //     //   duration: 3000
-  //     // });
-  //     // this.isRegisterDisable = false;
-  //   });
-  // }
+    })
+
+   
+    // .then((data) => {
+    //   this.email = '';
+    //   this.pass = '';
+
+    //   //console.log(data)
+    //   //this.navCtrl.push(HomePage);
+    // })
+    // .catch((err) => {console.log(err)
+    //   let toast = this.toastCtrl.create({
+    //     message: err.message,
+    //     duration: 3000
+    //   });
+
+    //   toast.present();
+    // });
   }
 }

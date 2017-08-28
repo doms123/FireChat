@@ -1,12 +1,12 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="light-blue">
     <ion-title>Register</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding margin-top>
   <form (submit)="register()" [formGroup]="registerForm">
-  	<ion-item>
+  	<ion-item no-padding>
   	  <ion-label floating>Email</ion-label>
 			<ion-input 
 				type="text" 
@@ -21,7 +21,7 @@
 			class="errorColor fSize12 mt5" 
 			padding-left>Email Address is invalid
 		</div>
-  	<ion-item>
+  	<ion-item no-padding>
   	  <ion-label floating>Password</ion-label>
 			<ion-input
 				type="password" 
@@ -41,7 +41,7 @@
 			class="errorColor fSize12 mt5" 
 			padding-left>Your password must be at least 5 characters long.
 		</div>
-		<button ion-button color="default" medium float-right full margin-top [disabled]="!registerForm.valid && isRegisterDisable">REGISTER</button>
+		<button ion-button color="default" medium float-right full margin-top [disabled]="isRegisterDisable">REGISTER</button>
 		
 	</form>
 </ion-content>

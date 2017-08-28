@@ -1,31 +1,25 @@
-.appLogo {
-    width: 80px;
-    height: auto;
-}
+.ios, .md {
+    page-landing {
+        ion-content {
+            background: #f5f6f7;
+            
+            .appLogo {
+                margin-top: 50px;
+                width: 80px;
+            }
 
-.tCenter {
-    text-align: center;
-}
+            .welcomeMsg {
+                font-size: 26px;
+                margin-bottom: 80px;
+            }
 
-.mt50 {
-    margin-top: 50px;
-}
+            .fbBtn {
+                background: #3b5998;
+            }
 
-.fsize24 {
-    font-size: 24px;
+            .googleBtn {
+                background: #dd4b39;
+            }
+        } 
+    }
 }
-
-.fbBtn {
-    background: #0084ff;
-    color: #fff;
-}
-
-.googleBtn {
-    background: #dc4a38;
-    color: #fff;
-}
-
-.mb200 {
-    margin-bottom: 50px;
-}
-
