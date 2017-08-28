@@ -1,17 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { RegisterPage } from '../register/register';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthProvider } from '../../providers/auth/auth';
-import { HomePage } from '../home/home';
-import { ResetPasswordPage } from '../reset-password/reset-password';
 import { Storage } from '@ionic/storage';
-/**
- * Generated class for the LoginPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -23,7 +14,7 @@ export class LoginPage {
   pass:string;
   isLoginDisable:boolean = false;
   loginForm: FormGroup;
-
+  
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -39,11 +30,11 @@ export class LoginPage {
   }
 
   pushSignUp() {
-  	this.navCtrl.push(RegisterPage);
+    this.navCtrl.push('RegisterPage');
   }
 
   pushResetPass() {
-    this.navCtrl.push(ResetPasswordPage);
+    this.navCtrl.push('ResetPasswordPage');
   }
 
   login() {
@@ -61,7 +52,7 @@ export class LoginPage {
         this.storage.set('userId', res.uid);
         this.storage.set('userName', res.displayName);
         this.storage.set('userEmail', res.email);
-        this.navCtrl.push(HomePage);
+        this.navCtrl.push('HomePage');
       }
     })
     .catch((err) => {

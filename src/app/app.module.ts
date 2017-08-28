@@ -2,19 +2,8 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
-// Ionic Modules for Imports
-import { HomePageModule } from '../pages/home/home.module';
-import { LoginPageModule } from '../pages/login/login.module';
-import { RegisterPageModule } from '../pages/register/register.module';
-import { LandingPageModule } from '../pages/landing/landing.module';
-import { ResetPasswordPageModule } from '../pages/reset-password/reset-password.module';
 
 // Firebase Imports
 import { AngularFireModule } from 'angularfire2';
@@ -37,9 +26,7 @@ const firebaseConfig = {
 
 @NgModule({
   declarations: [
-    MyApp,
-    AboutPage,
-    ContactPage,
+    MyApp
   ],
   imports: [
     BrowserModule,
@@ -48,18 +35,11 @@ const firebaseConfig = {
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     HttpModule, 
-    HomePageModule,
-    LoginPageModule,
-    RegisterPageModule,
-    LandingPageModule,
     IonicStorageModule.forRoot(),
-    ResetPasswordPageModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    AboutPage,
-    ContactPage,
+    MyApp
   ],
   providers: [
     StatusBar,

@@ -3,15 +3,14 @@ import { Platform,  } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { LandingPage } from '../pages/landing/landing';
 import { AuthProvider } from '../providers/auth/auth';
-import { HomePage } from '../pages/home/home';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any; 
+  rootPage:string; 
+
 
   constructor(
     platform: Platform, 
@@ -30,9 +29,9 @@ export class MyApp {
 
     storage.get('userId').then((user) => {
       if(user != null) {
-        this.rootPage = HomePage;
+        this.rootPage = 'HomePage';
       }else {
-        this.rootPage = LandingPage;
+        this.rootPage = 'LandingPage';
       }
     });
     

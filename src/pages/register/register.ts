@@ -1,9 +1,8 @@
-import { LoginPage } from './../login/login';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HomePage } from '../home/home';
+
 
 /**
  * Generated class for the RegisterPage page.
@@ -36,16 +35,12 @@ export class RegisterPage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RegisterPage');
-  }
-
   register() {
     this.isRegisterDisable = true;
     this.authProvider.register(this.email, this.pass)
     .then((user) => {
       user.sendEmailVerification();
-      this.navCtrl.push(LoginPage);
+      this.navCtrl.push('LoginPage');
       this.email = '';
       this.pass = '';
       let toast = this.toastCtrl.create({
@@ -62,22 +57,5 @@ export class RegisterPage {
       this.isRegisterDisable = false;
       toast.present();
     })
-
-   
-    // .then((data) => {
-    //   this.email = '';
-    //   this.pass = '';
-
-    //   //console.log(data)
-    //   //this.navCtrl.push(HomePage);
-    // })
-    // .catch((err) => {console.log(err)
-    //   let toast = this.toastCtrl.create({
-    //     message: err.message,
-    //     duration: 3000
-    //   });
-
-    //   toast.present();
-    // });
   }
 }
