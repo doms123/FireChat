@@ -16,24 +16,19 @@ import { ChatProvider } from '../../providers/chat/chat';
 })
 export class ChatPage {
   users:any;
+  names:any;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public chatProvider: ChatProvider
   ) {
-    alert('test')
     this.getUsers();
   }
 
   getUsers() {
-    this.chatProvider.getUser()
-      .then(users => {
-        alert()
-        console.log(users.val());
-      })
-      .catch(err => {
-        console.log('error');
-      });
+    this.names = this.chatProvider.getUser().on('value', (users) => {
+      console.log(users.val())
+    });
   }
 }

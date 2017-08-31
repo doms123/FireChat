@@ -12,16 +12,18 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 */
 @Injectable()
 export class ChatProvider {
-  users: FirebaseListObservable<any>;
-
+  users =  firebase.database().ref('/users');
+  names:any;
   constructor(
     public http: Http,
     public db: AngularFireDatabase
   ) {
-
+    this.getUser();
   }
 
   getUser() {
-    return firebase.database().ref('/users').orderByChild('isVerified').equalTo(true);
+    return this.users.orderByChild('isVerified').equalTo(true);
   }
+
+
 }
