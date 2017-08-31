@@ -17,6 +17,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: 'register.html',
 })
 export class RegisterPage {
+  name: string;
   email:string;
   pass:string;
   registerForm: FormGroup;
@@ -30,6 +31,7 @@ export class RegisterPage {
     public formBuilder: FormBuilder
   ) {
     this.registerForm = formBuilder.group({
+      name: [null, Validators.required],
       email: [null, Validators.compose([Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])")])],
       pass: [null, Validators.compose([Validators.required, Validators.minLength(5)])]
     });
@@ -39,6 +41,8 @@ export class RegisterPage {
     this.isRegisterDisable = true;
     this.authProvider.register(this.email, this.pass)
     .then((user) => {
+      console.log(user);
+      this.authProvider.createUser(user.uid, user.email, user.photoURL, this.name);
       user.sendEmailVerification();
       this.navCtrl.push('LoginPage');
       this.email = '';

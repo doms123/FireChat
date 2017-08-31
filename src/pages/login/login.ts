@@ -49,6 +49,8 @@ export class LoginPage {
         this.isLoginDisable = false;
         toast.present();
       }else {
+        // update the verified key to true
+        this.authProvider.loginVerified(res.uid);
         this.storage.set('userId', res.uid);
         this.storage.set('userName', res.displayName);
         this.storage.set('userEmail', res.email);

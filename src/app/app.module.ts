@@ -15,6 +15,9 @@ import { AuthProvider } from '../providers/auth/auth';
 import { HttpModule } from '@angular/http';
 import { IonicStorageModule } from '@ionic/storage';
 
+// Providers
+import { ChatProvider } from '../providers/chat/chat';
+
 // Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyAAGkJZJsX9QGUEkKzx_ZEEzQWFJJ27oEs",
@@ -26,7 +29,7 @@ const firebaseConfig = {
 
 @NgModule({
   declarations: [
-    MyApp
+    MyApp,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,7 @@ const firebaseConfig = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
+    ChatProvider,
   ]
 })
 export class AppModule {}

@@ -6,6 +6,15 @@
 
 <ion-content padding margin-top>
   <form (submit)="register()" [formGroup]="registerForm">
+		<ion-item no-padding>
+			<ion-label floating>Name</ion-label>
+			<ion-input 
+				type="text" 
+				[(ngModel)]="name" 
+				name="name"
+				[formControl]="registerForm.controls['name']"
+			></ion-input>
+		</ion-item>
   	<ion-item no-padding>
   	  <ion-label floating>Email</ion-label>
 			<ion-input 

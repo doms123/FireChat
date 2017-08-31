@@ -34,12 +34,5 @@ export class MyApp {
         this.rootPage = 'LandingPage';
       }
     });
-    
-    // if(this.authProvider.isLoggedIn()) {
-    //   this.rootPage = HomePage;
-    // }else {
-    //   this.rootPage = LandingPage;
-    // }
-    // console.log(this.authProvider.isLoggedIn())
   }
 }

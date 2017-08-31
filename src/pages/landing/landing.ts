@@ -1,6 +1,7 @@
 import { Storage } from '@ionic/storage';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
@@ -9,15 +10,58 @@ import { AuthProvider } from '../../providers/auth/auth';
   templateUrl: 'landing.html',
 })
 export class LandingPage {
+  email:string;
+  pass:string;
+  isLoginDisable:boolean = false;
+  loginForm: FormGroup;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public authProvider: AuthProvider,
-    public storage: Storage
-  ) { }
+    public storage: Storage,
+    public formBuilder: FormBuilder,
+    public toastCtrl: ToastController
+  ) {
+    this.loginForm = formBuilder.group({
+      email: [null, Validators.compose([Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])")])],
+      pass: [null, Validators.required]
+    });
+  }
 
-  pushLoginPage() {
-    this.navCtrl.push('LoginPage');
+  navPush(page:string) {
+    this.navCtrl.push(page);
+  }
+
+  login() {
+    this.isLoginDisable = true;
+    this.authProvider.login(this.email, this.pass)
+    .then((res) => { 
+      if(!res.emailVerified) {
+        let toast = this.toastCtrl.create({
+          message: 'Please verify your email to active your account',
+          duration: 5000
+        });
+        this.isLoginDisable = false;
+        toast.present();
+      }else {
+        // update the verified key to true
+        this.authProvider.loginVerified(res.uid);
+        this.storage.set('userId', res.uid);
+        this.storage.set('userName', res.displayName);
+        this.storage.set('userEmail', res.email);
+        // this.navCtrl.push('HomePage');
+        this.navCtrl.setRoot('HomePage');
+      }
+    })
+    .catch((err) => {
+      let toast = this.toastCtrl.create({
+        message: err.message,
+        duration: 5000
+      });
+      this.isLoginDisable = false;
+      toast.present();
+    })
   }
 
   fbLoginBtn() {

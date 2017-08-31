@@ -1,4 +1,3 @@
-import { AuthProvider } from './../../providers/auth/auth';
 import { Storage } from '@ionic/storage';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -18,12 +17,16 @@ export class HomePage {
   name:string;
   showSearchBar:boolean = false;
 
+  tab1:any = "ChatPage";
+  tab2:any = "ContactsPage";
+  tab3:any = "ProfilePage";
+  tab4:any = "SettingsPage";
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public storage: Storage,
-    public authProvider: AuthProvider
-  ) { }
+  ) {}
 
   logoutBtn() {
     this.storage.clear();
