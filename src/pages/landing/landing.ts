@@ -12,7 +12,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 export class LandingPage {
   email:string;
   pass:string;
-  isLoginDisable:boolean = false;
+  isLoginDisable:boolean = true;
   loginForm: FormGroup;
 
   constructor(
@@ -27,10 +27,20 @@ export class LandingPage {
       email: [null, Validators.compose([Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])")])],
       pass: [null, Validators.required]
     });
+
+    
   }
 
   navPush(page:string) {
     this.navCtrl.push(page);
+  }
+
+  hasInput() {
+    if(this.loginForm.status == 'VALID') {
+      this.isLoginDisable = false;
+    }else {
+      this.isLoginDisable = true;
+    }
   }
 
   login() {

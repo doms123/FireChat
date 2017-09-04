@@ -12,6 +12,7 @@
           [(ngModel)]="email"
           name="email"
           [formControl]="loginForm.controls['email']"
+          (keyup)="hasInput()"
           ></ion-input>
         </ion-item>
           <div 
@@ -27,6 +28,7 @@
           [(ngModel)]="pass"
           name="pass"
           [formControl]="loginForm.controls['pass']"
+          (keyup)="hasInput()"
           ></ion-input>
         </ion-item>
           <div 

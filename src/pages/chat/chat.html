@@ -13,67 +13,25 @@
         </ion-buttons>
     </ion-navbar>
   </ion-header>
+
   
   <ion-content no-padding>
     <ion-list>
-      <ion-item-divider color="light">Users</ion-item-divider>
-      <!-- <ion-item *ngFor="let user of users">
-        <ion-avatar item-start>
-          <img src="https://sellinghive.applite.com/ci_upload/w45_ddbfc5f75e2924bcce5393257f990463.jpg">
-        </ion-avatar>
-        <ion-label>
-          <h2>{{user.displayName}}</h2>
-          <p>About me . . . </p>
-        </ion-label>
-        <ion-note item-end="" class="note note-ios">3:43 pm</ion-note>
-      </ion-item> -->
+      <ion-item-divider color="light">FireChat Users <button (click)="logoutBtn()">Logout</button></ion-item-divider>
+        <ion-item *ngFor="let user of users" (click)="chatBox(user)">
+          <ion-avatar item-start>
+            <img src="{{user.photo}}" *ngIf="user.photo;else photo;">
+            <ng-template #photo><span class="icon-circle">A</span></ng-template>
+          </ion-avatar>
+          <ion-label>
+            <h3>{{user.displayName}} <span [class]="user.status"></span></h3>
+            <p>{{user.email}}</p>
+          </ion-label>
+          <ion-note item-end="" class="note note-ios">3:43 pm</ion-note>
+        </ion-item>
     </ion-list>
-  
-    <!-- <ion-list>
-      <ion-item-divider color="light">Online</ion-item-divider>
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="https://sellinghive.applite.com/ci_upload/w45_ddbfc5f75e2924bcce5393257f990463.jpg">
-        </ion-avatar>
-        <ion-label>
-          <h2>Finn</h2>
-          <p>Listen, I've had a pretty messed up day...</p>
-        </ion-label>
-        <ion-note item-end="" class="note note-ios">3:43 pm</ion-note>
-      </ion-item>
-  
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="https://sellinghive.applite.com/ci_upload/w45_ddbfc5f75e2924bcce5393257f990463.jpg">
-        </ion-avatar>
-        <ion-label>
-          <h2>Finn</h2>
-          <p>Listen, I've had a pretty messed up day...</p>
-        </ion-label>
-        <ion-note item-end="" class="note note-ios">3:43 pm</ion-note>
-      </ion-item>
-  
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="https://sellinghive.applite.com/ci_upload/w45_ddbfc5f75e2924bcce5393257f990463.jpg">
-        </ion-avatar>
-        <ion-label>
-          <h2>Finn</h2>
-          <p>Listen, I've had a pretty messed up day...</p>
-        </ion-label>
-        <ion-note item-end="" class="note note-ios">3:43 pm</ion-note>
-      </ion-item>
-  
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="https://sellinghive.applite.com/ci_upload/w45_ddbfc5f75e2924bcce5393257f990463.jpg">
-        </ion-avatar>
-        <ion-label>
-          <h2>Finn</h2>
-          <p>Listen, I've had a pretty messed up day...</p>
-        </ion-label>
-        <ion-note item-end="" class="note note-ios">3:43 pm</ion-note>
-      </ion-item>
-    </ion-list> -->
   </ion-content>
+  
+
+
   

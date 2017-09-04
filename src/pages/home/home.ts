@@ -1,3 +1,4 @@
+import { AuthProvider } from './../../providers/auth/auth';
 import { Storage } from '@ionic/storage';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -26,12 +27,8 @@ export class HomePage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public storage: Storage,
+    public authProvider: AuthProvider
   ) {}
-
-  logoutBtn() {
-    this.storage.clear();
-    this.navCtrl.setRoot('LandingPage', {}, {animate: true, direction: 'forward'});
-  }
 
   search() {
    this.showSearchBar = !this.showSearchBar;
