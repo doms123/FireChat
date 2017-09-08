@@ -28,16 +28,21 @@
       </ion-navbar>
  </ion-header>
  <ion-content>
-    <div class="direct-chat-msg" *ngFor="let chat of chats">
-        <div class="direct-chat-info clearfix">
-          <span class="direct-chat-name pull-left">{{chat.name}}</span>
-          <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
-        </div><!-- /.direct-chat-info -->
-        <img class="direct-chat-img" src="{{chat.senderPhoto}}" alt="message user image"><!-- /.direct-chat-img -->
-        <div class="direct-chat-text">
-          {{chat.message}}
-        </div><!-- /.direct-chat-text -->
-    </div>
+   <div class="directChatArea">
+      <div class="directChatMsg" *ngFor="let chat of chats">
+          <div class="directChatInfo">
+            <span class="directChatName" float-left>{{chat.name}}</span>
+            <span class="directChatTimestamp" float-right>{{chat.timestamp}}</span>
+          </div>
+          <img class="directChatImg" src="{{chat.senderPhoto}}" *ngIf="chat.senderPhoto != 'none';else photo;">
+          <ng-template #photo><span class="iconCircle">A</span></ng-template>
+          <div class="talk-bubble tri-right tri-right left-top">
+            <div class="talktext">
+              <p>{{chat.message}}</p>
+            </div>
+          </div>
+      </div>
+   </div>
  </ion-content>
  <ion-footer position="bottom">
     <ion-item>

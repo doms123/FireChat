@@ -21,7 +21,7 @@
         <ion-item *ngFor="let user of users" (click)="chatBox(user)">
           <ion-avatar item-start>
             <img src="{{user.photo}}" *ngIf="user.photo;else photo;">
-            <ng-template #photo><span class="icon-circle">A</span></ng-template>
+            <ng-template #photo><span class="icon-circle">{{user.displayName.charAt(0)}}</span></ng-template>
           </ion-avatar>
           <ion-label>
             <h3>{{user.displayName}} <span [class]="user.status"></span></h3>

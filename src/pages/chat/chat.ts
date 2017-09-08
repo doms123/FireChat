@@ -4,13 +4,6 @@ import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { ChatProvider } from '../../providers/chat/chat';
 import { Storage } from '@ionic/storage';
 
-/**
- * Generated class for the ChatPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-chat',
@@ -33,7 +26,6 @@ export class ChatPage {
     this.getUsers();
     storage.get('userId').then(userId => {
       this.loggedUserId = userId;
-      console.log(userId)
     });
 
     this.getLoggedUserId();

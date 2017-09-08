@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import * as firebase from 'firebase/app';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
+
 /*
   Generated class for the ChatProvider provider.
 
@@ -26,27 +27,23 @@ export class ChatProvider {
     public afAuth: AngularFireAuth,
   ) {
 
-    // console.log(this.loggedUserId);
-    
     afAuth.authState.subscribe(user => {
-      this.loggedUserId   = user.uid;
-      this.loggedUserName = user.displayName;
-      
-      this.user = this.db.object('/users/'+this.loggedUserId, { preserveSnapshot: true });
-      this.user.subscribe(user => {
-        this.user = user.val();
-        
+      // console.log(user)
+      this.user = this.db.object('/users/'+user.uid, {preserveSnapshot: true});
+      this.user.subscribe(userData => {
+        this.user = userData.val();
+        //console.log(userData.val())
         let photo;
         if(!('photo' in this.user)) {
           photo = 'none';
         }else {
-          photo = user.val().photo;
+          photo = userData.val().photo;
         }
         this.getLoggedUserPhoto(photo);
+        this.loggedUserId   = userData.key;
+        this.loggedUserName = userData.val().displayName;
       })
     });
-
-    
   }
 
   getUsers() {
