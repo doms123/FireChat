@@ -17,6 +17,8 @@ import { IonicStorageModule } from '@ionic/storage';
 
 // Providers
 import { ChatProvider } from '../providers/chat/chat';
+import { UserProvider } from '../providers/user/user';
+import { PushnotifProvider } from '../providers/pushnotif/pushnotif';
 
 // Firebase Config
 const firebaseConfig = {
@@ -29,11 +31,14 @@ const firebaseConfig = {
 
 @NgModule({
   declarations: [
-    MyApp,
+    MyApp
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      tabsPlacement: 'top',
+      tabsHideOnSubPages: true
+    }),
     AngularFireModule.initializeApp(firebaseConfig), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
@@ -50,6 +55,8 @@ const firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     ChatProvider,
+    UserProvider,
+    PushnotifProvider,
   ]
 })
 export class AppModule {}

@@ -9,8 +9,7 @@ import { AuthProvider } from '../providers/auth/auth';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:string; 
-
+  rootPage:string = 'LandingPage'; 
 
   constructor(
     platform: Platform, 
@@ -27,12 +26,12 @@ export class MyApp {
     });
 
 
-    storage.get('userId').then((user) => {
-      if(user != null) {
-        this.rootPage = 'HomePage';
-      }else {
-        this.rootPage = 'LandingPage';
-      }
-    });
+    // storage.get('userId').then((user) => {
+    //   if(user != null) {
+    //     this.rootPage = 'TabsPage';
+    //   }else {
+    //     this.rootPage = 'LandingPage';
+    //   }
+    // });
   }
 }

@@ -38,10 +38,16 @@ export class AuthProvider {
         this.updateOnConnect();
         this.updateOnDisconnect();
         this.updateOnIdle();
-      }else {
-
       }
     });
+  }
+
+  loggedUser() {
+    return this.afAuth.authState;
+  }
+
+  loggedUserMetaData(uid:string) {
+    return this.db.object('/users/'+uid);
   }
 
   updateOnConnect() {

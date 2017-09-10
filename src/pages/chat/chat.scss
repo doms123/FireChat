@@ -14,7 +14,7 @@ page-chat {
         -webkit-border-radius:50%;
           border-radius: 50%;
         border: 1px solid #ebebeb;
-        background: rgb(0, 161, 225); /*#ececec;ebebeb*/
+        background: #1e88e5; /*#ececec;ebebeb*/
         color: #fff;
         text-align:center;
         line-height: 40px;
@@ -22,5 +22,21 @@ page-chat {
 
     .icon-circle {
         text-transform: uppercase;
+    }
+
+    .item-md ion-avatar {
+        position: relative;
+    }
+
+    .item-md ion-avatar .unreadCount {
+        position: absolute;
+        right: -3px;
+        top: 0;
+        background: #da2929;
+        border-radius: 3px;
+        color: #fff;
+        font-size: 11px;
+        padding: 2px;
+        z-index: 1;
     }
 }

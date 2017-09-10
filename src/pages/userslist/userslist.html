@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar color="light-blue">
+    <ion-title>Users</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar [(ngModel)]="searchStr" [formControl]="searchControl" (ionInput)="onSearchInput()"></ion-searchbar>
+  <div *ngIf="searching" class="spinner-container">
+    <ion-spinner item-start="" name="bubbles" class="spinner spinner-ios spinner-bubbles spinner-ios-bubbles"></ion-spinner>
+  </div>
+  <ion-list *ngIf="!searching">
+    <ion-item *ngFor="let user of users" (click)="chatBox(user)">
+      <ion-avatar item-start>
+        <span class="unreadCount" *ngIf="user.unread">{{user.unread}}</span>
+        <img src="{{user.photo}}" *ngIf="user.photo;else photo;">
+        <ng-template #photo><span class="icon-circle">{{user.displayName.charAt(0)}}</span></ng-template>
+      </ion-avatar>
+      <ion-label>
+        <h3>{{user.displayName}} <span [class]="user.status"></span></h3>
+        <p>{{user.email}}</p>
+      </ion-label>
+      <button round ion-button item-end icon-left icon-only small color="light-blue">
+        <ion-icon name="person-add"></ion-icon>
+      </button>
+    </ion-item>
+
+    <ion-item *ngIf="noResult && !users.length">
+      <ion-label>
+        <h3>No users found!</h3>
+      
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

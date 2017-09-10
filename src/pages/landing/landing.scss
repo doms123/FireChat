@@ -1,10 +1,11 @@
 .ios, .md {
     page-landing {
         ion-content {
-            background: #f5f6f7;
+            // background: url('/assets/images/bg.jpg');
+            // background-size: cover;
             
             .appLogo {
-                margin-top: 50px;
+                margin-top: 20px;
                 width: 80px;
             }
 
@@ -23,6 +24,16 @@
             
             .item-inner {
                 background: #f5f6f7;
+            }
+
+            .item-block, .item-inner {
+                background: transparent !important;
+            }
+
+            .title {
+                font-size: 24px;
+                margin: 0;
+                font-weight: 500;
             }
         } 
     }

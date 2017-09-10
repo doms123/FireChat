@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -7,8 +7,12 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'tabs.html',
 })
 export class TabsPage {
+  tab1:string = "ChatPage";
+  tab2:string = "NotificationsPage";
+  tab3:string = "ProfilePage";
+  tab4:string = "SettingsPage";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor() {
 
   }
 }

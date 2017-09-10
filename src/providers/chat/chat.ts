@@ -68,7 +68,10 @@ export class ChatProvider {
     let user1Id = this.loggedUserId;
     let user1  = this.loggedUserName;
     // let user2 = receiverId;
+
+
     let roomName = (user1 < user2 ? user1+'_'+user2 : user2+'_'+user1);
+    roomName = roomName.replace(/\ /g, '-');
     let obj:object = {};
     obj[user1] = true;
     obj[user2] = true;
@@ -78,13 +81,32 @@ export class ChatProvider {
     return roomName;
   }
 
-  sendMessage(chatRoom:string, chatMsg:string) {
+  sendMessage(chatRoom:string, chatMsg:string, receiverId:string) {
+    chatRoom = chatRoom.replace(/\ /g, '-');
     this.db.list('/chats/'+chatRoom).push({
       name: this.loggedUserName,
       senderPhoto: this.loggedUserPhoto,
       message: chatMsg,
       timestamp: firebase.database.ServerValue.TIMESTAMP
     });
+    
+    let unreadObj = {};
+    unreadObj[chatRoom] = true;
+    // check if unreadMsg already exist
+    let ref = this.db.object('/users/'+receiverId+'/unreadMsg').$ref.transaction(currentValue => {
+      if(currentValue === null) {
+        this.db.object('/users/'+receiverId+'/unreadMsg').update(unreadObj);
+        let objToPush = {};
+        objToPush[this.loggedUserId] = true;  
+        this.db.list('/users/'+receiverId+'/unreadMsg/'+chatRoom).push(objToPush);
+      }else {
+        let objToPush = {};
+        objToPush[this.loggedUserId] = true;  
+        this.db.list('/users/'+receiverId+'/unreadMsg/'+chatRoom).push(objToPush);
+      }
+    });
+    
+    //this.db.object('/users/'+receiverId+'/unreadMsg').update(unreadObj);
   }
 
   loadChats(chatRoom:string) {

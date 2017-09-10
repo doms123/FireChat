@@ -13,6 +13,7 @@ export class ChatPage {
   users:any[];
   names:any;
   loggedUserId:string;
+  loggedUserName:string;
 
   constructor(
     public navCtrl: NavController, 
@@ -22,43 +23,11 @@ export class ChatPage {
     public authProvider: AuthProvider,
     public app: App
   ) {
-    
-    this.getUsers();
-    storage.get('userId').then(userId => {
-      this.loggedUserId = userId;
-    });
 
-    this.getLoggedUserId();
   }
 
-  getUsers() {
-    this.chatProvider.getUsers().subscribe(users => {
-      users.forEach((data, index) => {
-        if(data.$key == this.loggedUserId) {
-          users.splice(index, 1);
-        }
-     });
-      this.users = users;
-    });
-  }
 
-  getLoggedUserId() {
-    this.loggedUserId = this.chatProvider.getLoggedUserId();
-  }
-
-  logoutBtn() {
-    this.authProvider.loggedOut();
-    this.storage.clear();
-    this.app.getRootNav().setRoot('LandingPage');
-  }
-
-  chatBox(user) {
-    let chatRoom = this.chatProvider.chatMember(user.$key, user.displayName);
-    this.navCtrl.push('IndividualChatPage', {
-      receiverName: user.displayName,
-      receiverStatus: user.status,
-      chatRoom: chatRoom,
-      receiverPhoto: user.photo
-    });
+  pushPage(page:string) {
+    this.navCtrl.push('UserslistPage');
   }
 }

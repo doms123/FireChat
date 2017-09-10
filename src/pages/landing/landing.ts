@@ -27,8 +27,6 @@ export class LandingPage {
       email: [null, Validators.compose([Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])")])],
       pass: [null, Validators.required]
     });
-
-    
   }
 
   navPush(page:string) {
@@ -60,8 +58,8 @@ export class LandingPage {
         this.storage.set('userId', res.uid);
         this.storage.set('userName', res.displayName);
         this.storage.set('userEmail', res.email);
-        // this.navCtrl.push('HomePage');
-        this.navCtrl.setRoot('HomePage');
+        alert()
+        this.navCtrl.setRoot('TabsPage');
       }
     })
     .catch((err) => {
@@ -80,7 +78,7 @@ export class LandingPage {
       this.storage.set('userId', data.uid);
       this.storage.set('userName', data.displayName);
       this.storage.set('userEmail', data.email);
-      this.navCtrl.push('HomePage');
+      this.navCtrl.setRoot('TabsPage');
     });
   }
 
@@ -90,7 +88,7 @@ export class LandingPage {
       this.storage.set('userId', data.uid);
       this.storage.set('userName', data.displayName);
       this.storage.set('userEmail', data.email);
-      this.navCtrl.push('HomePage');
+      this.navCtrl.setRoot('TabsPage');
     });
   }
 }

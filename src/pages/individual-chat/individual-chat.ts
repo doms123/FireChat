@@ -8,6 +8,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'individual-chat.html',
 })
 export class IndividualChatPage {
+  recieverId:string;
   receiverName:string;
   receiverStatus:string;
   tabBarElement:any;
@@ -20,6 +21,7 @@ export class IndividualChatPage {
     public navParams: NavParams,
     public chatProvider: ChatProvider
   ) {
+    this.recieverId     = navParams.get('receiverId');
     this.receiverName   = navParams.get('receiverName');
     this.receiverStatus = navParams.get('receiverStatus');
     this.chatRoom       = navParams.get('chatRoom');
@@ -37,7 +39,7 @@ export class IndividualChatPage {
   }
 
   sendMessage() {
-    this.chatProvider.sendMessage(this.chatRoom, this.chatMsg);
+    this.chatProvider.sendMessage(this.chatRoom, this.chatMsg, this.recieverId);
     this.chatMsg = "";
   }
 
