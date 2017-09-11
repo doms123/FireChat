@@ -14,21 +14,11 @@
     </ion-navbar>
   </ion-header>
 
-  
   <ion-content no-padding>
-    <!-- <ion-list>
-      <ion-item-divider color="light">FireChat Users <button (click)="logoutBtn()">Logout</button></ion-item-divider>
-        <ion-item *ngFor="let user of users" (click)="chatBox(user)">
-          <ion-avatar item-start>
-            <span class="unreadCount" *ngIf="user.unread">{{user.unread}}</span>
-            <img src="{{user.photo}}" *ngIf="user.photo;else photo;">
-            <ng-template #photo><span class="icon-circle">{{user.displayName.charAt(0)}}</span></ng-template>
-          </ion-avatar>
-          <ion-label>
-            <h3>{{user.displayName}} <span [class]="user.status"></span></h3>
-            <p>{{user.email}}</p>
-          </ion-label>
-          <ion-note item-end="" class="note note-ios">3:43 pm</ion-note>
-        </ion-item>
-    </ion-list> -->
+    <form (submit)="sendPushMsg()">
+      <input type="text" [(ngModel)]="title" name="title">
+      <input type="text" [(ngModel)]="body" name="body">
+      <input type="submit" value="Send">
+    </form>
   </ion-content>
+

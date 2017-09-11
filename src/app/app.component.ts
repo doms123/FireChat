@@ -26,12 +26,12 @@ export class MyApp {
     });
 
 
-    // storage.get('userId').then((user) => {
-    //   if(user != null) {
-    //     this.rootPage = 'TabsPage';
-    //   }else {
-    //     this.rootPage = 'LandingPage';
-    //   }
-    // });
+    storage.get('userId').then((user) => {
+      if(user != null) {
+        this.rootPage = 'TabsPage';
+      }else {
+        this.rootPage = 'LandingPage';
+      }
+    });
   }
 }

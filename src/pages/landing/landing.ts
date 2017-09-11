@@ -58,7 +58,7 @@ export class LandingPage {
         this.storage.set('userId', res.uid);
         this.storage.set('userName', res.displayName);
         this.storage.set('userEmail', res.email);
-        alert()
+
         this.navCtrl.setRoot('TabsPage');
       }
     })
