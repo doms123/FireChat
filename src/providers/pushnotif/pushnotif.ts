@@ -1,32 +1,38 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { AngularFireAuth }     from 'angularfire2/auth';
+import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 import 'rxjs/add/operator/take';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 
+
 @Injectable()
 export class PushnotifProvider {
-  messaging = firebase.messaging()
+  messaging = firebase.messaging();
+  userLoggedId:string;
   currentMessage = new BehaviorSubject(null)
-  constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) { }
+  constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) {
+    this.afAuth.authState.subscribe((user) => {
+      this.userLoggedId = user.uid;
+    });
+  }
   updateToken(token) {
     this.afAuth.authState.take(1).subscribe(user => {
-      console.log('updated . . .')
+      console.log('updated . . .');
       if (!user) return;
-      const data = { [user.uid]: token }
-      this.db.object('fcmTokens/').update(data)
-    })
+      const data = {[user.uid]: token}
+      this.db.object('/fcmTokens/').update(data);
+    });
   }
   getPermission() {
       this.messaging.requestPermission()
       .then(() => {
         console.log('Notification permission granted.');
-        return this.messaging.getToken()
+        return this.messaging.getToken();
       })
       .then(token => {
-        console.log(token)
-        this.updateToken(token)
+        console.log(token);
+        this.updateToken(token);
       })
       .catch((err) => {
         console.log('Unable to get permission to notify.', err);
@@ -35,7 +41,7 @@ export class PushnotifProvider {
     receiveMessage() {
        this.messaging.onMessage((payload) => {
         console.log("Message received. ", payload);
-        this.currentMessage.next(payload)
+        this.currentMessage.next(payload);
       });
     }
     

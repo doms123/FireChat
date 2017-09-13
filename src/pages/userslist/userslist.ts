@@ -18,7 +18,7 @@ export class UserslistPage {
   noResult:boolean = false;
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams,
+    public navParams: NavParams, 
     public toastCtrl: ToastController,
     public userProvider: UserProvider
   ) {

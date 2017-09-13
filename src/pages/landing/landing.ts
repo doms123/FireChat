@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
-import { PushnotifProvider } from '../../providers/pushnotif/pushnotif';
 
 @IonicPage()
 @Component({
@@ -24,18 +23,11 @@ export class LandingPage {
     public storage: Storage,
     public formBuilder: FormBuilder,
     public toastCtrl: ToastController,
-    public pushnotifProvider: PushnotifProvider
   ) {
     this.loginForm = formBuilder.group({
       email: [null, Validators.compose([Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])")])],
       pass: [null, Validators.required]
     });
-  }
-
-  ngOnInit() {
-    this.pushnotifProvider.getPermission();
-    this.pushnotifProvider.receiveMessage();
-    this.message = this.pushnotifProvider.currentMessage;
   }
 
   navPush(page:string) {

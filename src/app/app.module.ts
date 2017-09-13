@@ -19,6 +19,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { ChatProvider } from '../providers/chat/chat';
 import { UserProvider } from '../providers/user/user';
 import { PushnotifProvider } from '../providers/pushnotif/pushnotif';
+import { NotifProvider } from '../providers/notif/notif';
 
 // Firebase Config
 const firebaseConfig = {
@@ -57,6 +58,7 @@ const firebaseConfig = {
     ChatProvider,
     UserProvider,
     PushnotifProvider,
+    NotifProvider,
   ]
 })
 export class AppModule {}

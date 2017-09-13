@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the NotificationsPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+import { NotifProvider } from '../../providers/notif/notif';
 
 @IonicPage()
 @Component({
@@ -14,12 +8,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'notifications.html',
 })
 export class NotificationsPage {
+  notifCount:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public notifProvider: NotifProvider
+  ) {
+    this.countUnreadNotif();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad NotificationsPage');
+  countUnreadNotif() {
+    this.notifProvider.countUnreadNotif().then(unreadCount => {
+      this.notifCount = unreadCount;
+      console.log(unreadCount);
+    });
   }
-
 }

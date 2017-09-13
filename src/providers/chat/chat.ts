@@ -5,12 +5,6 @@ import * as firebase from 'firebase/app';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-/*
-  Generated class for the ChatProvider provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular DI.
-*/
 @Injectable()
 export class ChatProvider {
   users: FirebaseListObservable<any>;
@@ -28,11 +22,9 @@ export class ChatProvider {
   ) {
 
     afAuth.authState.subscribe(user => {
-      // console.log(user)
       this.user = this.db.object('/users/'+user.uid, {preserveSnapshot: true});
       this.user.subscribe(userData => {
         this.user = userData.val();
-        //console.log(userData.val())
         let photo;
         if(!('photo' in this.user)) {
           photo = 'none';
