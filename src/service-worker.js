@@ -31,3 +31,5 @@ self.toolbox.router.any('/*', self.toolbox.cacheFirst);
 self.toolbox.router.default = self.toolbox.networkFirst;
 
 
+
+

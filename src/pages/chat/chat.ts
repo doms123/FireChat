@@ -39,7 +39,6 @@ export class ChatPage {
     this.navCtrl.push('UserslistPage');
   }
 
-
   sendPushMsg() {
     this.db.list('messages').push({
       title: this.title,

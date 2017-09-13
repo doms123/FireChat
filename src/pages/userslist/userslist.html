@@ -10,7 +10,7 @@
     <ion-spinner item-start="" name="bubbles" class="spinner spinner-ios spinner-bubbles spinner-ios-bubbles"></ion-spinner>
   </div>
   <ion-list *ngIf="!searching">
-    <ion-item *ngFor="let user of users" (click)="chatBox(user)">
+    <ion-item *ngFor="let user of users; let i = index">
       <ion-avatar item-start>
         <span class="unreadCount" *ngIf="user.unread">{{user.unread}}</span>
         <img src="{{user.photo}}" *ngIf="user.photo;else photo;">
@@ -20,7 +20,7 @@
         <h3>{{user.displayName}} <span [class]="user.status"></span></h3>
         <p>{{user.email}}</p>
       </ion-label>
-      <button round ion-button item-end icon-left icon-only small color="light-blue">
+      <button ion-button item-end icon-left icon-only small color="light-blue" (click)="sendFriendRequest(user, i)">
         <ion-icon name="person-add"></ion-icon>
       </button>
     </ion-item>

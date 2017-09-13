@@ -9,14 +9,10 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 export class PushnotifProvider {
   messaging = firebase.messaging()
   currentMessage = new BehaviorSubject(null)
-  
-  constructor(
-    public db: AngularFireDatabase,
-    public afAuth: AngularFireAuth
-  ) {}
-  
+  constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) { }
   updateToken(token) {
     this.afAuth.authState.take(1).subscribe(user => {
+      console.log('updated . . .')
       if (!user) return;
       const data = { [user.uid]: token }
       this.db.object('fcmTokens/').update(data)

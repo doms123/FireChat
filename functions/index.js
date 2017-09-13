@@ -1,30 +1,28 @@
 const functions = require('firebase-functions');
-const admin = require('firebase-admin');
+const admin = require("firebase-admin");
 admin.initializeApp(functions.config().firebase);
-
-
-exports.sendPowerNotification = functions.database.ref("/online").onWrite((event) => {
-    const data = event.data;
-    console.log('Power event triggered');
-    if (!data.changed()) {
-        return;
-    }
-    const status = data.val();
-    const onOff =  status ? "on": "off";
-
-    const payload = {
+exports.fcmSend = functions.database.ref('/messages/{userId}/{messageId}').onWrite(event => {
+  const message = event.data.val()
+  const userId  = event.params.userId
+  const payload = {
         notification: {
-            title: 'Electricity Monitor - Power status changed',
-            body: `Your electricity is now ${onOff}`,
-            sound: "default"
+          title: message.title,
+          body: message.body,
+          icon: "https://placeimg.com/250/250/people",
+          click_action : "https://doms123.github.io"
         }
-    };
-
-    const options = {
-        priority: "high",
-        timeToLive: 60 * 60 * 24 //24 hours
-    };
-    console.log('Sending notifications');
-    return admin.messaging().sendToTopic("Power_Notifications", payload, options);
-
+      };
+   admin.database()
+        .ref(`/fcmTokens/${userId}`)
+        .once('value')
+        .then(token => token.val() )
+        .then(userFcmToken => {
+          return admin.messaging().sendToDevice(userFcmToken, payload)
+        })
+        .then(res => {
+          console.log("Sent Successfully", res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
 });

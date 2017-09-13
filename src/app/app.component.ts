@@ -1,9 +1,11 @@
+import { PushnotifProvider } from './../providers/pushnotif/pushnotif';
 import { Component } from '@angular/core';
 import { Platform,  } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthProvider } from '../providers/auth/auth';
+
 
 @Component({
   templateUrl: 'app.html'
