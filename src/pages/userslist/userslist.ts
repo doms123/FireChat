@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
@@ -20,7 +20,8 @@ export class UserslistPage {
     public navCtrl: NavController, 
     public navParams: NavParams, 
     public toastCtrl: ToastController,
-    public userProvider: UserProvider
+    public userProvider: UserProvider,
+    public alertCtrl: AlertController
   ) {
     this.getUsers();
     this.searchControl = new FormControl();
@@ -62,20 +63,54 @@ export class UserslistPage {
   }
 
   sendFriendRequest(recipient:any, index) {
-    this.users.splice(index, 1);
-    this.userProvider.sendFriendRequest(recipient).then(() => {
+    // this.users.splice(index, 1);
+    // this.userProvider.sendFriendRequest(recipient).then(() => {
 
-      let toast = this.toastCtrl.create({
-        message: `Friend request to ${recipient.displayName} was sent`,
-        duration: 5000
-      });
-      toast.present();
+    //   let toast = this.toastCtrl.create({
+    //     message: `Friend request to ${recipient.displayName} was sent`,
+    //     duration: 5000
+    //   });
+    //   toast.present();
 
-      if(this.users.length == 0) { // no result
-        this.noResult = true;
-      }else {
-        this.noResult = false;
-      }
+    //   if(this.users.length == 0) { // no result
+    //     this.noResult = true;
+    //   }else {
+    //     this.noResult = false;
+    //   }
+    // });
+
+    let confirm = this.alertCtrl.create({
+      title: 'Send a friend request?',
+      message: `Do you want ${recipient['displayName']} to be your friend?`,
+      buttons: [
+        {
+          text: 'No',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.users.splice(index, 1);
+            this.userProvider.sendFriendRequest(recipient).then(() => {
+
+              let toast = this.toastCtrl.create({
+                message: `Friend request to ${recipient.displayName} was sent`,
+                duration: 5000
+              });
+              toast.present();
+
+              if(this.users.length == 0) { // no result
+                this.noResult = true;
+              }else {
+                this.noResult = false;
+              }
+            });
+          }
+        }
+      ]
     });
+    confirm.present();
   }
 }

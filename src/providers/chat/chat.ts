@@ -105,4 +105,8 @@ export class ChatProvider {
     const chatsObservable = this.db.list('/chats/'+chatRoom);
     return chatsObservable;
   }
+
+  loadChatUsersFriendReq(loggedUserId:string) {
+    return this.db.list(`/users/${loggedUserId}/friends`);
+  }
 }

@@ -1,4 +1,3 @@
-import { LoginPage } from './../login/login';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -41,7 +40,6 @@ export class ResetPasswordPage {
         duration: 5000
       });
       this.isResetPassDisabled = false;
-      this.navCtrl.push(LoginPage);
       toast.present();
     })
     .catch((err) => {

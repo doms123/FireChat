@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { DatePipe } from '@angular/common';
 
 // Firebase Imports
 import { AngularFireModule } from 'angularfire2';
@@ -59,6 +60,7 @@ const firebaseConfig = {
     UserProvider,
     PushnotifProvider,
     NotifProvider,
+    DatePipe
   ]
 })
 export class AppModule {}

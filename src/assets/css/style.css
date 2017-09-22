@@ -5,13 +5,27 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    position: absolute;
+    bottom: -1px;
+    right: 3px;
+  }
+
+  .item-ios ion-avatar {
+    position: relative;
   }
 
   .offline {
-    background: #90949c;
+    background: #a9adb4;
     display: inline-block;
     margin-left: 5px;
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    position: absolute;
+    bottom: -1px;
+    right: 3px;
+  }
+
+  .item-md.item-block .item-inner {
+    border-bottom: none;
   }

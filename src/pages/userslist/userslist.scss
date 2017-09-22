@@ -4,7 +4,7 @@ page-userslist {
         font-size: 12px;
     }
 
-    .icon-circle, .icon-circle-large, .icon-circle-small{
+    .icon-circle, .icon-circle-large, .icon-circle-small {
         position: relative;
         display: inline-block;
         margin: -1px;
@@ -44,5 +44,14 @@ page-userslist {
         width: 100%;
         text-align: center;
         padding: 10px;
+    }
+
+    .item-md.item-block .item-inner,
+    .list-ios .item-block .item-inner {
+        border-bottom: none;
+    }
+
+    .item {
+        border-bottom: 0.55px solid #c8c7cc;
     }
 }

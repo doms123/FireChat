@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content no-padding>
   <ion-searchbar [(ngModel)]="searchStr" [formControl]="searchControl" (ionInput)="onSearchInput()"></ion-searchbar>
   <div *ngIf="searching" class="spinner-container">
     <ion-spinner item-start="" name="bubbles" class="spinner spinner-ios spinner-bubbles spinner-ios-bubbles"></ion-spinner>
@@ -9,9 +9,10 @@
         <span class="unreadCount" *ngIf="user.unread">{{user.unread}}</span>
         <img src="{{user.photo}}" *ngIf="user.photo;else photo;">
         <ng-template #photo><span class="icon-circle">{{user.displayName.charAt(0)}}</span></ng-template>
+        <span [class]="user.status"></span>
       </ion-avatar>
       <ion-label>
-        <h3>{{user.displayName}} <span [class]="user.status"></span></h3>
+        <h3>{{user.displayName}}</h3>
         <p>{{user.email}}</p>
       </ion-label>
       <button ion-button item-end icon-left icon-only small color="light-blue" (click)="sendFriendRequest(user, i)">

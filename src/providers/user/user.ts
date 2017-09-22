@@ -56,7 +56,6 @@ export class UserProvider {
                 userData[userKey]['key'] = userKey;
               }
             }
-          
         }
 
         resolve(userArr);
@@ -73,7 +72,7 @@ export class UserProvider {
       // insert new notification
       firebase.database().ref(`/notification/${recipient.key}`).push({
         senderId: this.loggedUserId,
-        isRead: false,
+        description: 'requested',
         dateAdded: firebase.database.ServerValue.TIMESTAMP
       });
 

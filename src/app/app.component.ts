@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthProvider } from '../providers/auth/auth';
+import * as firebase from 'firebase';
 
 
 @Component({
@@ -27,13 +28,19 @@ export class MyApp {
       splashScreen.hide();
     });
 
-
-    storage.get('userId').then((user) => {
-      if(user != null) {
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
         this.rootPage = 'TabsPage';
       }else {
         this.rootPage = 'LandingPage';
       }
     });
+    // storage.get('userId').then((user) => {
+    //   if(user != null) {
+    //     this.rootPage = 'TabsPage';
+    //   }else {
+    //     this.rootPage = 'LandingPage';
+    //   }
+    // });
   }
 }

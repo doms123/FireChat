@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { ChatProvider } from '../../providers/chat/chat';
 import { Storage } from '@ionic/storage';
-import { AngularFireDatabase } from "angularfire2/database";
+import { FirebaseListObservable } from "angularfire2/database";
 import { PushnotifProvider } from "../../providers/pushnotif/pushnotif";
 
 @IonicPage()
@@ -16,9 +16,9 @@ export class ChatPage {
   names:any;
   loggedUserId:string;
   loggedUserName:string;
-
   title:string;
   body:string;
+  notifList:FirebaseListObservable<any>;
 
   constructor(
     public navCtrl: NavController, 
@@ -27,16 +27,21 @@ export class ChatPage {
     public storage: Storage,
     public authProvider: AuthProvider,
     public app: App,
-    public db: AngularFireDatabase,
-    public pushnotifProvider: PushnotifProvider
+    public pushnotifProvider: PushnotifProvider,
   ) {
-
-    //this.pushnotifProvider.getPermission();
+    this.storage.get('userId').then(userId => {
+      this.loggedUserId = userId;
+      this.loadChatUsers(userId);
+    });
   }
-
 
   pushPage(page:string) {
     this.navCtrl.push('UserslistPage');
   }
 
+  loadChatUsers(userId) {
+    this.chatProvider.loadChatUsersFriendReq(userId).subscribe(users => {
+      console.log(users)
+    });
+  }
 }
