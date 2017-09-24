@@ -1,0 +1,89 @@
+page-chat {
+    .note {
+        align-self: flex-start;
+        font-size: 12px;
+    }
+
+    .icon-circle, .icon-circle-large, .icon-circle-small {
+        position: relative;
+        display: inline-block;
+        margin: -1px;
+        width: 40px;
+        height: 40px; 
+        -moz-border-radius:50%;
+        -webkit-border-radius:50%;
+        border-radius: 50%;
+        border: 1px solid #ebebeb;
+        background: #1e88e5; /*#ececec;ebebeb*/
+        color: #fff;
+        text-align:center;
+        line-height: 40px;
+    }
+
+    .icon-circle {
+        text-transform: uppercase;
+    }
+
+    .item-md ion-avatar {
+        position: relative;
+    }
+
+    .item-ios [item-right], .item-ios [item-end] {
+        margin: 0;
+      }
+  
+      .item-ios.item-block .item-inner {
+        padding-right: 0;
+        border: none;
+      }
+  
+      .item {
+        border-bottom: 0.55px solid #c8c7cc;
+        position: relative !important;
+      }
+  
+      .item-md.item-block .item-inner {
+        border-bottom: none;
+      }
+  
+      .item-ios [item-right], 
+      .item-ios [item-end],
+      .note-md {
+        margin: 0 !important;
+        font-size: 12px;
+        position: relative;
+        top: 10px;
+        right: 10px;
+    }
+
+    .item-inner p {
+       font-size: 12px !important;
+    }
+
+    .unreadCount {
+        position: absolute;
+        color: #fff;
+        background-color: #f53d3d;
+        padding: 2px 6px;
+        border-radius: 50%;
+        font-size: 11px;
+        right: 10px;
+        top: 30px !important;
+    }
+
+    .fwB {
+        font-weight: bold;
+    }
+
+    .txtBlack {
+        color: #000;
+    }
+
+    .timeStamp {
+        left: 0;
+    }
+
+    .top30 {
+        top: 30px !important;
+    }
+}

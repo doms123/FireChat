@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable  } from 'angularfire2/database';
 
 @Injectable()
 export class UserProvider {
@@ -11,7 +12,8 @@ export class UserProvider {
 
   constructor(
     public http: Http, 
-    public afAuth: AngularFireAuth
+    public afAuth: AngularFireAuth,
+    public afdb: AngularFireDatabase
   ) {
     this.afAuth.authState.subscribe(user => {
       if(user) {
@@ -21,50 +23,7 @@ export class UserProvider {
   }
 
   users() {
-    let promise = new Promise((resolve, reject) => {
-      this.usersRef.once('value', (snapshot) => {
-        let userData = snapshot.val();
-        let userArr = [];
-       
-        for(let userKey in userData) {
-  
-            if(!("friends" in userData[userKey])) { // remove all already friends from the lists
-              if(userKey != this.loggedUserId) {
-                let friendArr = [];
-
-                for(let friendReqKey in userData[userKey].friendReq) {
-                  friendArr.push(friendReqKey);
-                }
-
-                if(friendArr.indexOf(this.loggedUserId) == -1) {
-                  userArr.push(userData[userKey]);
-                  userData[userKey]['key'] = userKey;
-                }
-              }
-            }else {
-              let friendArr = [this.loggedUserId];
-              for(let friendKey in userData[userKey].friends) {
-                friendArr.push(friendKey);
-              }
-
-              for(let friendReqKey in userData[userKey].friendReq) {
-                friendArr.push(friendReqKey);
-              }
-
-              if(friendArr.indexOf(this.loggedUserId) == -1) {
-                userArr.push(userData[userKey]);
-                userData[userKey]['key'] = userKey;
-              }
-            }
-        }
-
-        resolve(userArr);
-      }).catch((err) => {
-        reject(err);
-      })
-    });
-    
-    return promise;
+    return this.afdb.list(`/users/`);
   }
 
   sendFriendRequest(recipient) {

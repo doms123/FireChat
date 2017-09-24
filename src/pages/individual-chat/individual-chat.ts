@@ -21,10 +21,11 @@ export class IndividualChatPage {
     public navParams: NavParams,
     public chatProvider: ChatProvider
   ) {
-    this.recieverId     = navParams.get('receiverId');
-    this.receiverName   = navParams.get('receiverName');
-    this.receiverStatus = navParams.get('receiverStatus');
-    this.chatRoom       = navParams.get('chatRoom');
+
+    this.recieverId     = navParams.get('$key');
+    this.receiverName   = navParams.get('displayName');
+    this.receiverStatus = navParams.get('status');
+    // this.chatRoom       = navParams.get('chatRoom');
     this.tabBarElement  = document.querySelector(".tabbar.show-tabbar");
 
     this.loadChats();
@@ -39,15 +40,14 @@ export class IndividualChatPage {
   }
 
   sendMessage() {
-    this.chatProvider.sendMessage(this.chatRoom, this.chatMsg, this.recieverId);
+    this.chatProvider.sendMessage(this.chatMsg, this.recieverId);
     this.chatMsg = "";
   }
 
   loadChats() {
-     this.chatProvider.loadChats(this.chatRoom).subscribe((chats) => {
+     this.chatProvider.loadChats().subscribe((chats) => {
         this.chats = chats;
+        console.log('chats', chats);
      });
-
-     //this.chats =
   }
 }

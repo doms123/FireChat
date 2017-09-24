@@ -68,6 +68,7 @@ page-individual-chat {
 
   .directChatMsg {
     margin-bottom: 10px;
+    position: relative;
   }
 
   .directChatMsg, .directChatText {
@@ -77,14 +78,14 @@ page-individual-chat {
   }
 
   .directChatArea {
-    padding: 15px 15px 0;
+    padding: 15px 10px 0;
   }
 
   .directChatInfo {
     display: block;
-    margin-bottom: 5px;
     font-size: 12px;
     overflow: hidden;
+    text-align: center;
   }
 
   .directChatName {
@@ -93,6 +94,7 @@ page-individual-chat {
 
   .directChatTimestamp {
     color: #999;
+    font-size: 11px;
   }
 
   .directChatImg {
@@ -132,29 +134,32 @@ page-individual-chat {
   }
 
   .iconCircle {
-    position: relative;
+    position: absolute;
     margin: -1px;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     border: 1px solid #ebebeb;
-    background: #00a1e1;
+    background: #1e88e5;
     color: #fff;
     text-align: center;
     line-height: 40px;
     float: left;
     font-size: 16px;
+    bottom: 0;
   }
 
   /* CSS talk bubble */
   .talk-bubble {
-    margin-left: 15px;
-    display: inline-block;
+    margin: 5px 0 0 50px;
     position: relative;
-    padding: 3px 8px;
+    padding: 1px 8px;
     height: auto;
     background-color: #1e88e5;
-    border-radius: 3px
+    border-radius: 20px;
+    max-width: calc(100% - 48px);
+    float: left;
+    bottom: 3px;
   }
 
   .border{
@@ -168,30 +173,30 @@ page-individual-chat {
   }
 
   /* Right triangle placed top left flush. */
-  .tri-right.border.left-top:before {
-    content: ' ';
-    position: absolute;
-    width: 0;
-    height: 0;
-    left: -40px;
-    right: auto;
-    top: -8px;
-    bottom: auto;
-    border: 32px solid;
-    border-color: #666 transparent transparent transparent;
-  }
-  .tri-right.left-top:after{
-    content: ' ';
-    position: absolute;
-    width: 0;
-    height: 0;
-    left: -10px;
-    right: auto;
-    top: 7px;
-    bottom: auto;
-    border: 12px solid;
-    border-color: #1e88e5 transparent transparent transparent;
-  }
+  // .tri-right.border.left-top:before {
+  //   content: ' ';
+  //   position: absolute;
+  //   width: 0;
+  //   height: 0;
+  //   left: -40px;
+  //   right: auto;
+  //   top: -8px;
+  //   bottom: auto;
+  //   border: 32px solid;
+  //   border-color: #666 transparent transparent transparent;
+  // }
+  // .tri-right.left-top:after{
+  //   content: ' ';
+  //   position: absolute;
+  //   width: 0;
+  //   height: 0;
+  //   left: -10px;
+  //   right: auto;
+  //   top: 7px;
+  //   bottom: auto;
+  //   border: 12px solid;
+  //   border-color: #1e88e5 transparent transparent transparent;
+  // }
 
   /* Right triangle, left side slightly down */
   .tri-right.border.left-in:before {

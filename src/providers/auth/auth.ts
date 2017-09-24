@@ -41,7 +41,7 @@ export class AuthProvider {
       }
     });
   }
-
+  
   loggedUser() {
     return this.afAuth.authState;
   }
@@ -62,7 +62,7 @@ export class AuthProvider {
   updateOnDisconnect() {
     firebase.database().ref('/users/' + this.loggedUserId)
                        .onDisconnect()
-                       .update({status: 'offline'});
+                       .update({status: 'offline', lastLogin: firebase.database.ServerValue.TIMESTAMP});
   }
 
   updateOnIdle() {

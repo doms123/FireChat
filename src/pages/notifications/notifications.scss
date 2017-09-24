@@ -33,6 +33,7 @@ page-notifications {
     }
 
     .item {
+      position: relative !important;
       border-bottom: 0.55px solid #c8c7cc;
     }
 
@@ -45,8 +46,12 @@ page-notifications {
     .note-md {
       margin: 0 !important;
       font-size: 12px;
-      position: relative;
-      top: -12px;
+      position: absolute;
+      top: 20px;
       right: 10px;
-  }
+    }
+
+    .item-inner p {
+      font-size: 12px !important;
+   }
 }

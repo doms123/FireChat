@@ -1,42 +1,17 @@
-<!-- <ion-header>
-  <ion-navbar color="light-blue">
-    <ion-title>{{receiverName}} <p><span [class]="receiverStatus"></span>{{receiverStatus}}</p></ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content no-padding no-margin>
-    <ion-list>
-        <ion-item *ngFor="#message of messages">{{message}}</ion-item>
-        <ion-item>Test message</ion-item>
-    </ion-list>
-</ion-content>
-
-<ion-footer position="bottom">
-    <ion-item>
-      <ion-icon item-left name="attach" color="light-blue"></ion-icon>
-      <ion-input type="text" placeholder="Mobile no"></ion-input>
-      <ion-icon item-right name="send" (click)="pickContactNo()" color="light-blue"></ion-icon>
-    </ion-item>
-</ion-footer>
-
-
- -->
-
- <ion-header>
+<ion-header>
     <ion-navbar color="light-blue">
-        <ion-title>{{receiverName}} <p><span [class]="receiverStatus"></span>{{receiverStatus}}</p></ion-title>
+        <ion-title>{{receiverName}} <p>{{receiverStatus}}</p></ion-title>
       </ion-navbar>
  </ion-header>
  <ion-content>
    <div class="directChatArea">
       <div class="directChatMsg" *ngFor="let chat of chats">
           <div class="directChatInfo">
-            <span class="directChatName" float-left>{{chat.name}}</span>
-            <span class="directChatTimestamp" float-right>{{chat.timestamp}}</span>
+            <span class="directChatTimestamp">{{chat.timestamp | date:'shortTime'}}</span>
           </div>
-          <img class="directChatImg" src="{{chat.senderPhoto}}" *ngIf="chat.senderPhoto != 'none';else photo;">
-          <ng-template #photo><span class="iconCircle">A</span></ng-template>
-          <div class="talk-bubble tri-right tri-right left-top">
+          <img class="directChatImg" src="{{chat.senderPhoto}}" *ngIf="chat.senderPhoto != 'none';else photo;" [hidden]="chat.name != receiverName">
+          <ng-template #photo><span class="iconCircle"  [hidden]="chat.name != receiverName">{{chat.name.charAt(0)}}</span></ng-template>
+          <div class="talk-bubble tri-right tri-right left-top" [attr.float-right]="chat.name != receiverName ? true : null">
             <div class="talktext">
               <p>{{chat.message}}</p>
             </div>

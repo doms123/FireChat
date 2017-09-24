@@ -14,6 +14,7 @@ export class ChatProvider {
   loggedUserPhoto:string;
   usersRef = firebase.database().ref('/users');
   chats: FirebaseListObservable<any>;
+  roomName:any;
 
   constructor(
     public http: Http,
@@ -69,13 +70,12 @@ export class ChatProvider {
     obj[user2] = true;
 
     this.db.object('/chat_room/'+roomName).set(obj);
-
+    this.roomName  = roomName;
     return roomName;
   }
 
-  sendMessage(chatRoom:string, chatMsg:string, receiverId:string) {
-    chatRoom = chatRoom.replace(/\ /g, '-');
-    this.db.list('/chats/'+chatRoom).push({
+  sendMessage(chatMsg:string, receiverId:string) {
+    this.db.list('/chats/'+this.roomName).push({
       name: this.loggedUserName,
       senderPhoto: this.loggedUserPhoto,
       message: chatMsg,
@@ -83,30 +83,24 @@ export class ChatProvider {
     });
     
     let unreadObj = {};
-    unreadObj[chatRoom] = true;
-    // check if unreadMsg already exist
-    let ref = this.db.object('/users/'+receiverId+'/unreadMsg').$ref.transaction(currentValue => {
-      if(currentValue === null) {
-        this.db.object('/users/'+receiverId+'/unreadMsg').update(unreadObj);
-        let objToPush = {};
-        objToPush[this.loggedUserId] = true;  
-        this.db.list('/users/'+receiverId+'/unreadMsg/'+chatRoom).push(objToPush);
-      }else {
-        let objToPush = {};
-        objToPush[this.loggedUserId] = true;  
-        this.db.list('/users/'+receiverId+'/unreadMsg/'+chatRoom).push(objToPush);
-      }
-    });
-    
-    //this.db.object('/users/'+receiverId+'/unreadMsg').update(unreadObj);
+    unreadObj[this.roomName] = true;
+    this.db.list(`/users/${receiverId}/unreadMessage/`).push(unreadObj);
   }
 
-  loadChats(chatRoom:string) {
-    const chatsObservable = this.db.list('/chats/'+chatRoom);
+  loadChats() {
+    const chatsObservable = this.db.list('/chats/'+this.roomName);
     return chatsObservable;
   }
 
   loadChatUsersFriendReq(loggedUserId:string) {
-    return this.db.list(`/users/${loggedUserId}/friends`);
+    return this.db.object(`/users/${loggedUserId}/`);
+  }
+
+  getFriendMetaData(friendKey) {
+    return this.db.object(`/users/${friendKey}/`);
+  }
+
+  lastUreadMessage(roomName) {
+    return this.db.object(`/chats/${roomName}/`);
   }
 }

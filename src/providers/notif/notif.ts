@@ -42,7 +42,7 @@ export class NotifProvider {
 
         let $obj2 = {};
         $obj2[acceptorId] = true;
-        let updateUser2 = this.db.object(`/users/${acceptorId}/friendReq/`).update($obj2);
+        let updateUser2 = this.db.object(`/users/${senderUserId}/friendReq/`).update($obj2);
         resolve(true);
       }).catch(err => {
         reject(err);

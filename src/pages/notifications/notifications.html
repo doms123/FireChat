@@ -15,7 +15,7 @@
         <button ion-button item-end color="light-blue" (click)="acceptRequest(user, i)" no-margin *ngIf="user.notifDesc == 'requested'">
           Accept
         </button>
-        <ion-note item-end *ngIf="user.notifDesc == 'accepted'">{{user.dateAdded | date:'h:m a'}}</ion-note>
+        <ion-note item-end *ngIf="user.notifDesc == 'accepted'">{{user.dateAdded | date:'shortTime'}}</ion-note>
     </ion-item>
     <ion-item *ngIf="notifCount == 0">
         <ion-label>

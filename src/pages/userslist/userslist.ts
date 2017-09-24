@@ -16,6 +16,7 @@ export class UserslistPage {
   searchStr: any = '';
   searchControl: FormControl;
   noResult:boolean = false;
+  userLoggedId:string;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
@@ -23,15 +24,47 @@ export class UserslistPage {
     public userProvider: UserProvider,
     public alertCtrl: AlertController
   ) {
-    this.getUsers();
+    this.userLoggedId = navParams.data.userId;
     this.searchControl = new FormControl();
+    this.getUsers();
   }
 
   getUsers() {
-    console.log('test');
-    this.userProvider.users().then((res:any) => {
-      this.users = res;
-      this.searchUserArr = res;
+    this.userProvider.users().subscribe(users => {
+      let friendArr = [this.userLoggedId];
+      let usersList = [];
+      for(let userKey in users) {
+        let userObj = users[userKey];
+        if(userObj.$key == this.userLoggedId) {
+
+          if('friendReq' in userObj) {
+            for(let friendUserId in userObj.friendReq){
+              if(friendArr.indexOf(friendUserId) == -1) {
+                friendArr.push(friendUserId);
+              }
+            }
+          }
+
+          if('friends' in userObj) {
+            for(let friendUserId in userObj.friends){
+              if(friendArr.indexOf(friendUserId) == -1) {
+                friendArr.push(friendUserId);
+              }
+            }
+          }
+
+        }
+      }
+
+      for(let userKey in users) {
+        let userObj = users[userKey];
+        userObj.key = users[userKey].$key;
+        if(friendArr.indexOf(users[userKey].$key) == -1) {
+          usersList.push(userObj);
+        }
+      }
+      this.users = usersList;
+      this.searchUserArr = usersList;
     });
   }
 

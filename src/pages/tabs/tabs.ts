@@ -10,7 +10,7 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'tabs.html',
 })
 export class TabsPage {
-  tab1:string = "ChatPage";
+  tab1:string = "ChatsPage";
   tab2:string = "NotificationsPage";
   tab3:string = "UserslistPage";
   tab4:string = "SettingsPage";
@@ -29,18 +29,18 @@ export class TabsPage {
     this.storage.get('userId').then(userId => {
       this.loggedUserId = userId;
       this.loadNotifCount(userId);
+      this.tabsParam['userId'] = userId;
     });
   }
 
   ngOnInit() {
     this.pushnotifProvider.getPermission();
     this.pushnotifProvider.receiveMessage();
-  }
+  } 
 
   loadNotifCount(userId) {
     this.notifProvider.getNotifCount(userId).subscribe(res => {
       this.notifCount = res.length;
-      this.tabsParam['userId'] = userId;
     });
   }
 }
