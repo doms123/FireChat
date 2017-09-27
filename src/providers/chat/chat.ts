@@ -88,8 +88,26 @@ export class ChatProvider {
   }
 
   loadChats() {
-    const chatsObservable = this.db.list('/chats/'+this.roomName);
-    return chatsObservable;
+    let promise = new Promise((resolve, reject) => {
+      let chatArr = [];
+      const chatRef = firebase.database().ref(`/chats/${this.roomName}/`);
+
+      chatRef.once('value', snapshot => {
+        let snapObjs = snapshot.val();
+        for(let objKey in snapObjs) {
+          chatArr.push(snapObjs[objKey]);
+        }
+
+        console.log('chatArr', chatArr);
+        resolve(chatArr);
+      });
+
+      chatRef.on('child_added', addedSnap => {
+        chatArr.push(addedSnap.val());
+      });
+    });
+
+    return promise;
   }
 
   loadChatUsersFriendReq(loggedUserId:string) {
@@ -102,5 +120,102 @@ export class ChatProvider {
 
   lastUreadMessage(roomName) {
     return this.db.object(`/chats/${roomName}/`);
+  }
+
+  loadChatUsers(userId:string) {
+    let promise = new Promise((resolve, reject) => {
+      let userArr = [];
+      const userLoggedRef = firebase.database().ref(`/users/${this.loggedUserId}/unreadMessage/`);
+      const userRef = firebase.database().ref(`/users/${userId}/friends/`);
+      userRef.once('value', snap => {
+        for(let userKey in snap.val()) {
+          if(snap.val()[userKey] == true) { // check if friends is true
+            let userChildRef = firebase.database().ref(`users/${userKey}`);
+            userChildRef.once('value', childSnap => {
+              let childObj = childSnap.val();
+              childObj.key = userKey;
+
+              let user1 = this.loggedUserName;
+              let user2 = childSnap.val()['displayName'];
+              let roomName = (user1 < user2 ? user1+'_'+user2 : user2+'_'+user1);
+              roomName = roomName.replace(/\ /g, '-');
+             
+              let lastChatRef = firebase.database().ref(`/chats/${roomName}/`).limitToLast(1);
+  
+              lastChatRef.on('value', lastChatRefSnap => {
+                let lastChatObj = lastChatRefSnap.val();
+                for(let lastChatKey in lastChatObj) {
+                  let lastMsg = lastChatObj[lastChatKey].message;
+                  let lastMsgTimeStamp = lastChatObj[lastChatKey].timestamp;
+                  childObj.lastMsg = lastMsg;
+                  childObj.lastMsgTimeStamp = lastMsgTimeStamp;
+                }
+              });
+
+              userLoggedRef.on('value', userLoggedRefSnap => {
+                let obj = userLoggedRefSnap.val();
+                let unreadCount = 0;
+                for(let key in obj) {
+                  for(let userKey in obj[key]) {
+                    if(userKey == roomName) {
+                      unreadCount++;
+                    }
+                  }
+                }
+
+                childObj.unreadCount = unreadCount;
+              });
+
+              // let unreadCount = 0;
+              // let unreadObj = childObj.unreadMessage;
+              // for(let unreadKey in unreadObj) {
+                
+              //   for(let key in unreadObj[unreadKey]) {
+              //     if(key == roomName) {
+              //       unreadCount++;
+              //     }
+              //   }
+              // }
+
+
+             
+              userArr.push(childObj);
+              console.log('userArr', userArr);
+            });
+
+            let userStatusRef = firebase.database().ref(`/users/${userKey}/`);
+            userStatusRef.on('child_changed', userSnap => {
+              if(userSnap.ref.key == 'status') {
+                let userCounter = 0;
+                for(let userObj of userArr) {
+                  if(userObj.key == userKey) {
+                    userArr[userCounter].status = userSnap.val();
+                  }
+  
+                  userCounter++;
+                }
+  
+                resolve(userArr);
+              }
+            });
+          }
+        }
+      });
+
+      userRef.on('child_changed', snap => { // listen for child change on users/friends node
+        let userChildRef = firebase.database().ref(`users/${snap.key}`);
+        userChildRef.once('value', userSnap => {
+          userArr.push(userSnap.val());
+
+       
+
+          resolve(userArr);
+        });
+      });
+      
+      resolve(userArr);
+    });
+
+    return promise;
   }
 }

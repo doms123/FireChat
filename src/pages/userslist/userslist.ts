@@ -10,7 +10,7 @@ import 'rxjs/add/operator/debounceTime';
   templateUrl: 'userslist.html',
 })
 export class UserslistPage {
-  users = [];
+  users:any;
   searchUserArr = [];
   searching:boolean = false;
   searchStr: any = '';
@@ -30,42 +30,9 @@ export class UserslistPage {
   }
 
   getUsers() {
-    this.userProvider.users().subscribe(users => {
-      let friendArr = [this.userLoggedId];
-      let usersList = [];
-      for(let userKey in users) {
-        let userObj = users[userKey];
-        if(userObj.$key == this.userLoggedId) {
-
-          if('friendReq' in userObj) {
-            for(let friendUserId in userObj.friendReq){
-              if(friendArr.indexOf(friendUserId) == -1) {
-                friendArr.push(friendUserId);
-              }
-            }
-          }
-
-          if('friends' in userObj) {
-            for(let friendUserId in userObj.friends){
-              if(friendArr.indexOf(friendUserId) == -1) {
-                friendArr.push(friendUserId);
-              }
-            }
-          }
-
-        }
-      }
-
-      for(let userKey in users) {
-        let userObj = users[userKey];
-        userObj.key = users[userKey].$key;
-        if(friendArr.indexOf(users[userKey].$key) == -1) {
-          usersList.push(userObj);
-        }
-      }
-      this.users = usersList;
-      this.searchUserArr = usersList;
-    });
+   this.userProvider.users().then(users => {
+     this.users = users;
+   });
   }
 
   ionViewDidLoad() {
@@ -96,22 +63,6 @@ export class UserslistPage {
   }
 
   sendFriendRequest(recipient:any, index) {
-    // this.users.splice(index, 1);
-    // this.userProvider.sendFriendRequest(recipient).then(() => {
-
-    //   let toast = this.toastCtrl.create({
-    //     message: `Friend request to ${recipient.displayName} was sent`,
-    //     duration: 5000
-    //   });
-    //   toast.present();
-
-    //   if(this.users.length == 0) { // no result
-    //     this.noResult = true;
-    //   }else {
-    //     this.noResult = false;
-    //   }
-    // });
-
     let confirm = this.alertCtrl.create({
       title: 'Send a friend request?',
       message: `Do you want ${recipient['displayName']} to be your friend?`,
@@ -133,12 +84,6 @@ export class UserslistPage {
                 duration: 5000
               });
               toast.present();
-
-              if(this.users.length == 0) { // no result
-                this.noResult = true;
-              }else {
-                this.noResult = false;
-              }
             });
           }
         }

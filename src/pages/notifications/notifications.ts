@@ -37,27 +37,23 @@ export class NotificationsPage {
     this.notifProvider.loadListOfNotif(userId).subscribe(notifList => {
       let notifArr = [];
       for(let notif of notifList) {
-        this.notifProvider.getUsers().subscribe(users => {
-          for (var key in users) {
-            
-            if(key == notif.senderId) {
-              users[key].notifDesc = notif.description;
-              users[key].notifKey = notif.$key;
-              users[key].userId = key;
-              users[key].dateAdded = notif.dateAdded;
-              notifArr.push(users[key]);
-            }
-          }
+        this.notifProvider.getUserData(notif.senderId).then(userData => {
+          userData['dateAdded'] = notif.dateAdded;
+          userData['notifDesc'] = notif.description;
+          userData['userId'] = notif.senderId;
+          userData['notifKey'] = notif.$key;
+          notifArr.push(userData);
         });
       }
+
       this.notifLists = notifArr;
     });
   }
 
   acceptRequest(user:object, i:number) {
     let confirm = this.alertCtrl.create({
-      title: 'Accept this friend request?',
-      message: `Do you accept ${user['displayName']} to be your friend?`,
+      title: 'Request confirmation',
+      message: `Do you accept ${user['displayName']} friend request?`,
       buttons: [
         {
           text: 'Disagree',

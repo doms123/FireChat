@@ -22,7 +22,7 @@ export class IndividualChatPage {
     public chatProvider: ChatProvider
   ) {
 
-    this.recieverId     = navParams.get('$key');
+    this.recieverId     = navParams.get('key');
     this.receiverName   = navParams.get('displayName');
     this.receiverStatus = navParams.get('status');
     // this.chatRoom       = navParams.get('chatRoom');
@@ -40,14 +40,20 @@ export class IndividualChatPage {
   }
 
   sendMessage() {
+    console.log('this.recieverId', this.recieverId)
     this.chatProvider.sendMessage(this.chatMsg, this.recieverId);
     this.chatMsg = "";
   }
 
   loadChats() {
-     this.chatProvider.loadChats().subscribe((chats) => {
-        this.chats = chats;
-        console.log('chats', chats);
-     });
+  //    this.chatProvider.loadChats().subscribe((chats) => {
+  //       this.chats = chats;
+  //       console.log('chats', chats);
+  //    });
+  // }
+
+    this.chatProvider.loadChats().then(chats => {
+      this.chats = chats;
+    });
   }
 }

@@ -12,7 +12,7 @@ import { PushnotifProvider } from "../../providers/pushnotif/pushnotif";
   templateUrl: 'chats.html',
 })
 export class ChatsPage {
-  users:any[];
+  users:any;
   names:any;
   userLoggedId:string;
   title:string;
@@ -43,75 +43,15 @@ export class ChatsPage {
   }
 
   loadChatUsers(userId, userName) {
-    this.chatProvider.loadChatUsersFriendReq(userId).subscribe(users => {
-      let friendArr = [];
-      if('friendReq' in users) {
-        for(let friendKey in users.friendReq) {
-          if(friendArr.indexOf(friendKey) == -1) {
-            friendArr.push(friendKey);
-          }
-        }
-      }
-
-      if('friends' in users) {
-        for(let friendKey in users.friends) {
-          if(friendArr.indexOf(friendKey) == -1) {
-            friendArr.push(friendKey);
-          }
-        }
-      }
-
-      if(friendArr.length > 0) {
-        for(let friendKey of friendArr) {
-          this.chatProvider.getFriendMetaData(friendKey).subscribe(userData => {
-            let roomName = (userName < userData.displayName ? userName+'_'+userData.displayName : userData.displayName+'_'+userName);
-            roomName = roomName.replace(/\ /g, '-');
-
-            this.chatProvider.loadChatUsersFriendReq(userId).subscribe(user => {
-              let unreadObj = user.unreadMessage;
-              let unreadCounter = 0;
-              for(let unreadKey in unreadObj) {
-                if(roomName in unreadObj[unreadKey]) {
-                  unreadCounter++;
-                }
-              }
-
-              userData['unreadCount'] = unreadCounter;
-
-              for(let key in this.friends) {
-                let friends = this.friends;
-                if(userData.$key == friends[key].$key) {
-                  this.friends.splice(parseInt(key), 1);
-                }
-              }
-
-          
-              this.chatProvider.lastUreadMessage(roomName).subscribe(messages => {
-                let messageLength = Object.keys(messages).length;
-                let messageCounter = 1;
-                for(let messageKey in messages) {
-                  let messageObj = messages[messageKey];
-                  if(messageLength == messageCounter) {
-                    console.log('messageObj', messageObj);
-                    userData['lastMessage'] = messageObj.message;
-                    userData['lastMessageDate'] = messageObj.timestamp;
-                  }
-                  messageCounter++;
-                } 
-              });
-              
-
-              this.friends.push(userData);
-              console.log('userData', userData);
-            });
-          });
-        }
-      }
+    this.chatProvider.loadChatUsers(userId).then(users => {
+      console.log('users', users)
+      this.users = users;
     });
   }
 
   pushChatRoom(user:any) {
-    this.chatProvider.chatMember(user.$key , user.displayName);
+    console.log('user', user['key']);
+    this.chatProvider.chatMember(user['key'], user['displayName']);
     this.navCtrl.push('IndividualChatPage', user);
   }
 }

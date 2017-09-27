@@ -27,6 +27,7 @@ export class NotifProvider {
 
   acceptFriendRequest(acceptorId:string, senderUserId:string, notifKey:string) {
     console.log('senderId', senderUserId)
+    console.log('acceptorId', acceptorId)
     let promise = new Promise((resolve, reject) => {
       let removeNotif = this.db.object(`/notification/${acceptorId}/${notifKey}`).remove(); // remove the notification nodes under notif key.
       removeNotif.then(success => {
@@ -42,7 +43,7 @@ export class NotifProvider {
 
         let $obj2 = {};
         $obj2[acceptorId] = true;
-        let updateUser2 = this.db.object(`/users/${senderUserId}/friendReq/`).update($obj2);
+        let updateUser2 = this.db.object(`/users/${senderUserId}/friends/`).update($obj2);
         resolve(true);
       }).catch(err => {
         reject(err);
@@ -52,7 +53,16 @@ export class NotifProvider {
     return promise;
   }
 
-  getUsers() {
-    return this.db.object(`/users/`).take(1);
+  getUserData(userId:string) {
+    let promise = new Promise((resolve, reject) => {
+      const userRef = firebase.database().ref(`users`);
+      const userChildRef = userRef.child(userId);
+
+      userChildRef.once('value', snapshot => {
+        resolve(snapshot.val());
+      });
+    });
+
+    return promise;
   }
 }
