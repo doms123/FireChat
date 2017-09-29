@@ -21,8 +21,12 @@ export class NotifProvider {
     return this.db.list(`/notification/${userId}`);
   }
 
+  getUnreadMsgCount(userId:string) {
+    return this.db.list(`/users/${userId}/unreadMessage/`);
+  }
+
   loadListOfNotif(userId:string) {
-      return this.db.list(`/notification/${userId}`);
+    return this.db.list(`/notification/${userId}`);
   }
 
   acceptFriendRequest(acceptorId:string, senderUserId:string, notifKey:string) {

@@ -8,8 +8,8 @@ page-userslist {
         position: relative;
         display: inline-block;
         margin: -1px;
-        width: 40px;
-        height: 40px; 
+        width: 45px;
+        height: 45px; 
          -moz-border-radius:50%;
         -webkit-border-radius:50%;
           border-radius: 50%;
@@ -17,7 +17,17 @@ page-userslist {
         background: #1e88e5; /*#ececec;ebebeb*/
         color: #fff;
         text-align:center;
-        line-height: 40px;
+        line-height: 42px;
+        font-size: 22px;
+    }
+
+    ion-avatar img {
+        width: 45px !important;
+        height: 45px !important; 
+    }
+
+    .input-wrapper ion-label {
+        margin: 8px 8px 8px 0 !important;
     }
 
     .icon-circle {

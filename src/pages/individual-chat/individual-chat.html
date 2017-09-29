@@ -4,7 +4,11 @@
       </ion-navbar>
  </ion-header>
  <ion-content>
-   <div class="directChatArea">
+  <ion-infinite-scroll position="top" (ionInfinite)="doInfinite('top')">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+   <div class="directChatArea" #content>
       <div class="directChatMsg" *ngFor="let chat of chats">
           <div class="directChatInfo">
             <span class="directChatTimestamp">{{chat.timestamp | date:'shortTime'}}</span>

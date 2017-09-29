@@ -16,7 +16,8 @@ export class TabsPage {
   tab4:string = "SettingsPage";
 
   message:any;
-  notifCount:any;  
+  notifCount:any; 
+  unreadMsgCount:any; 
   loggedUserId:string;
   tabsParam = {};
 
@@ -29,6 +30,7 @@ export class TabsPage {
     this.storage.get('userId').then(userId => {
       this.loggedUserId = userId;
       this.loadNotifCount(userId);
+      this.loadUnreadMsgCount(userId);
       this.tabsParam['userId'] = userId;
     });
   }
@@ -41,6 +43,12 @@ export class TabsPage {
   loadNotifCount(userId) {
     this.notifProvider.getNotifCount(userId).subscribe(res => {
       this.notifCount = res.length;
+    });
+  }
+
+  loadUnreadMsgCount(userId) {
+    this.notifProvider.getUnreadMsgCount(userId).subscribe(unread => {
+      this.unreadMsgCount = unread.length;
     });
   }
 }

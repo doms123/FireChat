@@ -1,5 +1,5 @@
 import { ChatProvider } from './../../providers/chat/chat';
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
@@ -15,20 +15,26 @@ export class IndividualChatPage {
   chatMsg:string;
   chatRoom:string;
   chats:any;
+  lastChatKey:string = '';
+
+  @ViewChild('content') content;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public chatProvider: ChatProvider
   ) {
-
     this.recieverId     = navParams.get('key');
     this.receiverName   = navParams.get('displayName');
     this.receiverStatus = navParams.get('status');
-    // this.chatRoom       = navParams.get('chatRoom');
     this.tabBarElement  = document.querySelector(".tabbar.show-tabbar");
 
     this.loadChats();
+    this.removeUnreadMsg();
+  }
+
+  scrollToBottom() {
+    this.content.nativeElement.scrollIntoView(false);
   }
 
   ionViewWillEnter() {
@@ -43,17 +49,27 @@ export class IndividualChatPage {
     console.log('this.recieverId', this.recieverId)
     this.chatProvider.sendMessage(this.chatMsg, this.recieverId);
     this.chatMsg = "";
+    this.removeUnreadMsg();
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 200);
   }
 
   loadChats() {
-  //    this.chatProvider.loadChats().subscribe((chats) => {
-  //       this.chats = chats;
-  //       console.log('chats', chats);
-  //    });
-  // }
-
     this.chatProvider.loadChats().then(chats => {
       this.chats = chats;
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 400);
     });
+  }
+
+  removeUnreadMsg() {
+    this.chatProvider.getRemoveUnreadMsg();
+  }
+
+  doInfinite() {
+    this.chatProvider.scrollChats();
+    console.log('Begin async operation');
   }
 }

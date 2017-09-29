@@ -15,6 +15,8 @@ export class ChatProvider {
   usersRef = firebase.database().ref('/users');
   chats: FirebaseListObservable<any>;
   roomName:any;
+  chatArr = [];
+  firstKnownKey:any;
 
   constructor(
     public http: Http,
@@ -48,6 +50,7 @@ export class ChatProvider {
     });
     return this.users;
   }
+  
 
   getLoggedUserPhoto(photo:string) {
     this.loggedUserPhoto = photo;
@@ -88,22 +91,54 @@ export class ChatProvider {
   }
 
   loadChats() {
-    let promise = new Promise((resolve, reject) => {
-      let chatArr = [];
-      const chatRef = firebase.database().ref(`/chats/${this.roomName}/`);
 
+    let promise = new Promise((resolve, reject) => {
+   
+      // const chatRef = firebase.database().ref(`/chats/${this.roomName}/`).orderByKey().endAt('').limitToLast(2);
+      const chatRef = firebase.database().ref(`/chats/${this.roomName}/`).limitToLast(2);
       chatRef.once('value', snapshot => {
         let snapObjs = snapshot.val();
-        for(let objKey in snapObjs) {
-          chatArr.push(snapObjs[objKey]);
-        }
 
-        console.log('chatArr', chatArr);
-        resolve(chatArr);
+        // for(let objKey in snapObjs) {
+        //   snapObjs[objKey].key = objKey;
+        //   this.chatArr.push(snapObjs[objKey]);
+        // }
+        // console.log('this.chatArr', this.chatArr);
+        // resolve(this.chatArr);
       });
 
       chatRef.on('child_added', addedSnap => {
-        chatArr.push(addedSnap.val());
+        if(!this.firstKnownKey) {
+          this.firstKnownKey = addedSnap.key;
+        }
+
+        //console.log('addedSnap.val()', addedSnap.val());
+        addedSnap.val()['key'] = addedSnap.key;
+        this.chatArr.push(addedSnap.val());
+        console.log('this.chatArr', this.chatArr);
+
+        if(this.chatArr.length >= 2) {
+          resolve(this.chatArr);
+        }
+      });
+    });
+
+    return promise;
+  }
+
+  scrollChats() {
+    let promise = new Promise((resolve, reject) => {
+      const chatRef = firebase.database().ref(`/chats/${this.roomName}/`).orderByChild('timestamp').endAt(this.firstKnownKey).limitToLast(2);
+      console.log('this.firstKnownKey', this.firstKnownKey)
+      chatRef.once('value', snapshot => {
+        let snapObjs = snapshot.val();
+
+        for(let objKey in snapObjs) {
+          snapObjs[objKey].key = objKey;
+          this.chatArr.unshift(snapObjs[objKey]);
+        }
+        console.log('this.chatArr', this.chatArr);
+        resolve(this.chatArr);
       });
     });
 
@@ -166,19 +201,6 @@ export class ChatProvider {
                 childObj.unreadCount = unreadCount;
               });
 
-              // let unreadCount = 0;
-              // let unreadObj = childObj.unreadMessage;
-              // for(let unreadKey in unreadObj) {
-                
-              //   for(let key in unreadObj[unreadKey]) {
-              //     if(key == roomName) {
-              //       unreadCount++;
-              //     }
-              //   }
-              // }
-
-
-             
               userArr.push(childObj);
               console.log('userArr', userArr);
             });
@@ -206,14 +228,31 @@ export class ChatProvider {
         let userChildRef = firebase.database().ref(`users/${snap.key}`);
         userChildRef.once('value', userSnap => {
           userArr.push(userSnap.val());
-
-       
-
           resolve(userArr);
         });
       });
       
       resolve(userArr);
+    });
+
+    return promise;
+  }
+
+  getRemoveUnreadMsg() {
+
+    let promise = new Promise((resolve, reject) => {
+      let userUnreadRef = firebase.database().ref(`/users/${this.loggedUserId}/unreadMessage/`);
+
+      userUnreadRef.once('value', snap => {
+        let snapObj = snap.val();
+        for(let snapParentKey in snapObj) {
+          for(let snapKey in snapObj[snapParentKey]) {
+            if(snapKey == this.roomName) {
+              userUnreadRef.child(snapParentKey).remove();
+            }
+          }
+        }
+      });
     });
 
     return promise;
